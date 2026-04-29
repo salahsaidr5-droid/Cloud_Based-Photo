@@ -1,9 +1,9 @@
 🚀 AWS Serverless & Zero-Cost Architecture (Terraform)
 📌 What is this about?
 I built a fully automated, serverless system on AWS using Terraform. The main challenge wasn't just making it work, but making it secure and basically free by staying within the AWS Free Tier limits.
+![Architecture Diagram](Screenshot%20from%202026-04-29%2004-52-16.png)
 
 🏗️ The Tech Stack
-![Architecture Diagram](Screenshot%20from%202026-04-29%2004-52-16.png)
 CloudFront & S3: For fast static content delivery.
 
 API Gateway & Lambda: The logic layer (Serverless).
