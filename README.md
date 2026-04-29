@@ -10,7 +10,7 @@ The main goal was to build a scalable system while **minimizing cost using AWS F
 
 ## 🏗️ Architecture Components
 
-![Architecture Diagram](Screenshot%20from%202026-04-29%2004-41-07.png)
+![Architecture Diagram](Screenshot%20from%202026-04-29%2004-52-16.png)
 * CloudFront (CDN)
 * S3 (Static Storage)
 * API Gateway
