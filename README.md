@@ -1,86 +1,46 @@
-# 🚀 Serverless AWS Architecture using Terraform
+🚀 AWS Serverless & Zero-Cost Architecture (Terraform)
+📌 What is this about?
+I built a fully automated, serverless system on AWS using Terraform. The main challenge wasn't just making it work, but making it secure and basically free by staying within the AWS Free Tier limits.
 
-## 📌 Overview
-
-This project demonstrates a secure and cost-optimized serverless architecture on AWS using Terraform.
-
-The main goal was to build a scalable system while **minimizing cost using AWS Free Tier and efficient architecture design**.
-
----
-
-## 🏗️ Architecture Components
-
+🏗️ The Tech Stack
 ![Architecture Diagram](Screenshot%20from%202026-04-29%2004-52-16.png)
-* CloudFront (CDN)
-* S3 (Static Storage)
-* API Gateway
-* Lambda (inside private subnet)
-* DynamoDB
-* VPC (Private Subnet)
-* VPC Endpoints
-* Security Groups
+CloudFront & S3: For fast static content delivery.
 
----
+API Gateway & Lambda: The logic layer (Serverless).
 
-## 🔐 Why Lambda in a Private Subnet?
+DynamoDB: For the database.
 
-I deployed Lambda inside a private subnet for:
+VPC & Endpoints: The networking backbone.
 
-* **Security**: No direct internet access reduces attack surface
-* **Controlled access**: Lambda communicates only with AWS services via VPC Endpoints
-* **Best practice** for production-grade architectures
+🔐 The "Private Lambda" Choice
+I didn't just throw the Lambda function out there. I tucked it inside a Private Subnet.
 
----
+Why? Because even in serverless, security matters. Keeping it private means no direct internet exposure, reducing the attack surface.
 
-## 💰 Cost Optimization Strategy
+The Pro Way: This is how real production environments are built.
 
-This architecture is designed to **stay within AWS Free Tier as much as possible**:
+💰 Killing the Costs (Cost Optimization)
+The goal was simple: $0 monthly bill.
 
-### 1. Serverless Services
+Strictly Serverless: Used Lambda and DynamoDB because you only pay when someone actually uses the app. No idle servers wasting money.
 
-* Lambda, API Gateway, and DynamoDB are **pay-per-use**
-* No always-running servers (unlike EC2)
+No NAT Gateway: This is the big one. NAT Gateways cost about $30/month just to exist. I replaced them with VPC Endpoints (Interface & Gateway types) to let the Lambda talk to S3 and DynamoDB privately and for free.
 
-### 2. Using Free Tier
+Free Tier Maximization: Optimized every service to fit within the 1M free requests and 5GB storage limits.
 
-* AWS Lambda: 1M free requests/month
-* API Gateway: free tier available
-* DynamoDB: free read/write capacity
-* S3: 5GB free storage
-* CloudFront: free data transfer (limited)
+🔄 How it works
+Users hit the CloudFront URL.
 
-### 3. Avoiding Expensive Components
+S3 handles the frontend stuff.
 
-* ❌ No EC2 instances (always cost money)
-* ❌ No NAT Gateway (very expensive)
-* ✅ Used **VPC Endpoints** instead
+API Gateway catches the backend requests and triggers the Lambda.
 
-### 4. VPC Endpoints Instead of NAT Gateway
+The Lambda does its job, talks to DynamoDB via a private tunnel (VPC Endpoint), and stays completely hidden from the public internet.
 
-* Lambda accesses S3 and DynamoDB **privately**
-* Avoids NAT Gateway cost (~$30+/month)
-* Improves security and reduces latency
+⚙️ To Run This
+Just the standard Terraform flow:
 
----
-
-## 🔄 Architecture Flow
-
-1. User accesses the application via CloudFront
-2. Static content is served from S3
-3. API requests go to API Gateway
-4. API Gateway triggers Lambda
-5. Lambda processes logic and interacts with DynamoDB
-6. All internal communication happens inside a secure VPC
-
----
-
-## ⚙️ Deployment
-
-```bash
+Bash
 terraform init
-terraform plan
 terraform apply
-```
-
----
-
+No manual clicking in the console, everything is defined in the code.
