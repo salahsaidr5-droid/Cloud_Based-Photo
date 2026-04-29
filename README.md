@@ -36,11 +36,3 @@ S3 handles the frontend stuff.
 API Gateway catches the backend requests and triggers the Lambda.
 
 The Lambda does its job, talks to DynamoDB via a private tunnel (VPC Endpoint), and stays completely hidden from the public internet.
-
-⚙️ To Run This
-Just the standard Terraform flow:
-
-Bash
-terraform init
-terraform apply
-No manual clicking in the console, everything is defined in the code.
