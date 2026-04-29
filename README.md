@@ -84,12 +84,3 @@ terraform apply
 
 ---
 
-## 📸 Architecture Diagram
-
-(Add your diagram here)
-
----
-
-## 👨‍💻 Author
-
-Salah Said
